@@ -88,7 +88,7 @@ delete(Table, Key) ->
 %%-------------------------------------------------------------------
 
 -type from() :: {pid(), term()}.
--spec handle_call(term, from(), state()) -> {reply, term(), state()}.
+-spec handle_call(term(), from(), state()) -> {reply, term(), state()}.
 handle_call({create, Table}, _From, #{tids := Tids} = State) ->
     {Reply, NewTids} = create_table(table_exists(Table, Tids), Table, Tids),
     NewState = State#{tids := NewTids},

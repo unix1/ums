@@ -56,21 +56,29 @@ create(_) ->
 
 drop(_) ->
     ok = ums_datastore_ets:drop(test_table),
-    {error, table_not_found, _} = ums_datastore_ets:list(test_table).
+    {error, table_not_found, _} = ums_datastore_ets:list(test_table),
+    {error, table_not_found, _} = ums_datastore_ets:drop(test_table).
 
 get(_) ->
+    {error, table_not_found, _} = ums_datastore_ets:get(non_existent_table, <<"foo">>),
     [] = ums_datastore_ets:get(test_table, <<"foo">>).
 
 put(_) ->
+    {error, table_not_found, _} = ums_datastore_ets:put(non_existent_table, <<"foo">>, bar),
+    [] = ums_datastore_ets:get(test_table, <<"foo">>),
     ok = ums_datastore_ets:put(test_table, <<"foo">>, bar),
     [{<<"foo">>, bar}] = ums_datastore_ets:get(test_table, <<"foo">>).
 
 list(_) ->
+    {error, table_not_found, _} = ums_datastore_ets:list(non_existent_table),
+    [] = ums_datastore_ets:list(test_table),
     ok = ums_datastore_ets:put(test_table, <<"foo">>, bar),
+    [{<<"foo">>, bar}] = ums_datastore_ets:list(test_table),
     ok = ums_datastore_ets:put(test_table, <<"bar">>, baz),
     [{<<"foo">>, bar}, {<<"bar">>, baz}] = ums_datastore_ets:list(test_table).
 
 delete(_) ->
+    {error, table_not_found, _} = ums_datastore_ets:delete(non_existent_table, <<"foo">>),
     ok = ums_datastore_ets:put(test_table, <<"foo">>, bar),
     ok = ums_datastore_ets:delete(test_table, <<"foo">>),
     [] = ums_datastore_ets:get(test_table, <<"foo">>).
