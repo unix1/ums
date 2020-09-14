@@ -54,7 +54,7 @@ list(Table) ->
 put(Table, Key, Value) ->
     ums_datastore_ets_server:put(Table, Key, Value).
 
--spec delete(Table :: atom(), Key :: binary()) -> ok | {error, table_not_Found, string()}.
+-spec delete(Table :: atom(), Key :: binary()) -> ok | {error, table_not_found, string()}.
 delete(Table, Key) ->
     ums_datastore_ets_server:delete(Table, Key).
 
